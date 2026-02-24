@@ -96,3 +96,40 @@ void Processor::start()
 {
     control_unit.start();
 }
+
+void Processor::print_all_stats() const
+{
+    std::cout << "\n=========================================" << std::endl;
+    std::cout << "PROCESSOR CORES UTILIZATION STATISTICS" << std::endl;
+    std::cout << "=========================================" << std::endl;
+    
+    unsigned long long total_ops_all = 0;
+    double total_utilization = 0;
+    
+    for (size_t i = 0; i < slave_count; ++i) {
+        std::cout << "\nCore " << i << ":" << std::endl;
+        pe_multiplication[i].print_stats();
+        total_ops_all += pe_multiplication[i].total_operations;
+        
+        unsigned long long total_cycles = pe_multiplication[i].total_cycles_active + 
+                                         pe_multiplication[i].total_cycles_idle;
+        if (total_cycles > 0) {
+            total_utilization += (double)pe_multiplication[i].total_cycles_active / total_cycles;
+        }
+    }
+    
+    std::cout << "\n--- Overall Statistics ---" << std::endl;
+    std::cout << "Total multiplication operations across all cores: " << total_ops_all << std::endl;
+    if (slave_count > 0) {
+        std::cout << "Average core utilization: " << (total_utilization / slave_count * 100.0) << "%" << std::endl;
+    }
+    
+    std::cout << "=========================================" << std::endl;
+}
+
+void Processor::reset_all_stats()
+{
+    for (size_t i = 0; i < slave_count; ++i) {
+        pe_multiplication[i].reset_stats();
+    }
+}

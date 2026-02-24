@@ -25,5 +25,7 @@ int sc_main(int, char*[]) {
     cout << "  Simulated cycles: " << sim_duration / sc_time(100, SC_NS) << endl;
     cout << "=========================================" << endl;
     
+    processor.print_all_stats();
+    
     return 0;
 }

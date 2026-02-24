@@ -32,6 +32,15 @@ SC_MODULE(PEMultiplication)
     void write_result();
     void load_data();
 
+    void print_stats() const;
+    void reset_stats();
+    
+    unsigned long long total_operations;
+    unsigned long long total_cycles_active;
+    unsigned long long total_cycles_idle;
+    unsigned long long load_count;
+    unsigned long long process_count;
+
 private:
     enum
     {
@@ -40,4 +49,8 @@ private:
         RESULT = 2,
     } state;
     float accumulator;
+
+    unsigned long long cycle_count;
+    int prev_state;
+    void profile_monitor();
 };

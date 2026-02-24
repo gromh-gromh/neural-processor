@@ -24,6 +24,9 @@ SC_MODULE(Processor)
 
     void start();
 
+    void print_all_stats() const;
+    void reset_all_stats();
+
     sc_signal<float> act_data;
     sc_signal<bool> act_start;
 
